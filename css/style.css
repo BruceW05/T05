@@ -1,0 +1,163 @@
+/* ---------- Design tokens (light) ---------- */
+:root {
+  color-scheme: light;
+  --bg:             #f4f3ef;
+  --surface-1:      #fcfcfb;
+  --border:         #e3e1da;
+  --text-primary:   #0b0b0b;
+  --text-secondary: #52514e;
+  --text-muted:     #75746f;
+  --grid:           #e8e6e0;
+  --axis:           #a9a79f;
+  --context-line:   #c4c2ba;   /* un-highlighted lines */
+
+  /* Categorical slots — fixed order, colour follows the entity */
+  --series-1: #2a78d6;   /* blue   — LCD  / mainland average */
+  --series-2: #eb6834;   /* orange — LED  / highlighted region */
+  --series-3: #1baf7a;   /* aqua   — OLED */
+
+  --header-bg: #10233d;
+  --header-text: #ffffff;
+  --header-sub: #c7d3e3;
+  --radius: 10px;
+}
+
+/* ---------- Dark mode (OS setting) ---------- */
+@media (prefers-color-scheme: dark) {
+  :root {
+    color-scheme: dark;
+    --bg:             #121211;
+    --surface-1:      #1a1a19;
+    --border:         #2d2d2a;
+    --text-primary:   #ffffff;
+    --text-secondary: #c3c2b7;
+    --text-muted:     #9a998f;
+    --grid:           #2a2a27;
+    --axis:           #5b5a55;
+    --context-line:   #4a4944;
+    --series-1: #3987e5;
+    --series-2: #d95926;
+    --series-3: #199e70;
+    --header-bg: #0b1a2e;
+  }
+}
+
+/* ---------- Base ---------- */
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0;
+  font-family: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+  background: var(--bg);
+  color: var(--text-primary);
+  line-height: 1.55;
+}
+.wrap { max-width: 1120px; margin: 0 auto; padding: 0 16px; }
+code { font-size: .9em; }
+
+/* ---------- Header ---------- */
+.page-header {
+  background: var(--header-bg);
+  color: var(--header-text);
+  padding: 48px 0 40px;
+  margin-bottom: 32px;
+}
+.eyebrow {
+  margin: 0 0 8px;
+  font-size: .8rem; letter-spacing: .06em; text-transform: uppercase;
+  color: var(--header-sub);
+}
+h1 { margin: 0 0 12px; font-size: clamp(1.7rem, 4vw, 2.6rem); line-height: 1.15; font-weight: 700; }
+.lede { max-width: 68ch; margin: 0; color: var(--header-sub); font-size: 1.05rem; }
+
+.stats {
+  list-style: none; padding: 0; margin: 28px 0 0;
+  display: grid; gap: 12px;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+}
+.stats li {
+  border-left: 3px solid rgba(255,255,255,.35);
+  padding: 4px 0 4px 14px;
+}
+.stats strong { display: block; font-size: 1.8rem; line-height: 1.1; font-variant-numeric: tabular-nums; }
+.stats span { font-size: .88rem; color: var(--header-sub); }
+
+/* ---------- Sections & cards ---------- */
+section { margin-bottom: 48px; }
+h2 { font-size: 1.35rem; margin: 0 0 6px; }
+.section-intro { max-width: 72ch; margin: 0 0 20px; color: var(--text-secondary); }
+
+.grid-2 {
+  display: grid; gap: 20px;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 420px), 1fr));
+  margin-bottom: 20px;
+}
+.card {
+  margin: 0;
+  background: var(--surface-1);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 20px 20px 16px;
+  min-width: 0;
+}
+.card h3 { margin: 0; font-size: 1.05rem; }
+.card .sub { margin: 2px 0 12px; font-size: .88rem; color: var(--text-secondary); }
+.card .note { margin: 10px 0 0; font-size: .8rem; color: var(--text-muted); }
+
+.chart { width: 100%; position: relative; }
+.chart svg { display: block; overflow: visible; }
+
+/* ---------- Axes & text in SVG ---------- */
+.axis text { fill: var(--text-secondary); font-size: 12px; font-family: inherit; }
+.axis path, .axis line { stroke: var(--axis); }
+.grid line { stroke: var(--grid); }
+.grid path { display: none; }
+.axis-label { fill: var(--text-secondary); font-size: 12px; }
+.value-label { fill: var(--text-primary); font-size: 13px; font-weight: 600; font-variant-numeric: tabular-nums; }
+.cat-label { fill: var(--text-secondary); font-size: 12px; }
+.annot { fill: var(--text-secondary); font-size: 12px; }
+
+/* ---------- Legend / filter buttons ---------- */
+.legend { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 8px; align-items: center; }
+.legend .legend-title { font-size: .82rem; color: var(--text-secondary); margin-right: 4px; }
+.legend button {
+  font: inherit; font-size: .82rem;
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 4px 10px;
+  border: 1px solid var(--border); border-radius: 999px;
+  background: var(--surface-1); color: var(--text-primary);
+  cursor: pointer;
+}
+.legend button:hover { border-color: var(--axis); }
+.legend button[aria-pressed="false"] { opacity: .45; }
+.legend button.active { border-color: var(--series-2); box-shadow: inset 0 0 0 1px var(--series-2); }
+.legend button:focus-visible { outline: 2px solid var(--series-1); outline-offset: 2px; }
+.swatch { width: 10px; height: 10px; border-radius: 50%; flex: none; }
+.swatch.line { width: 16px; height: 3px; border-radius: 2px; }
+.legend .static { display: inline-flex; align-items: center; gap: 6px; font-size: .82rem; color: var(--text-secondary); padding: 4px 4px; }
+
+/* ---------- Tooltip ---------- */
+.tooltip {
+  position: fixed; pointer-events: none; z-index: 10;
+  opacity: 0; transition: opacity .12s;
+  background: var(--surface-1); color: var(--text-primary);
+  border: 1px solid var(--border); border-radius: 8px;
+  box-shadow: 0 6px 20px rgba(0,0,0,.15);
+  padding: 8px 12px; font-size: .82rem; line-height: 1.45;
+  max-width: 260px;
+}
+.tooltip .t-title { font-weight: 600; margin-bottom: 2px; }
+.tooltip .t-row { display: flex; justify-content: space-between; gap: 16px; font-variant-numeric: tabular-nums; }
+.tooltip .t-row span:first-child { color: var(--text-secondary); display: inline-flex; align-items: center; gap: 6px; }
+.tooltip .t-row.strong span { color: var(--text-primary); font-weight: 600; }
+
+.page-footer { padding: 8px 16px 40px; font-size: .82rem; color: var(--text-muted); }
+
+@media (max-width: 520px) {
+  .page-header { padding: 32px 0 28px; }
+  .card { padding: 16px 14px 12px; }
+}
+
+/* Stacked cards: each chart gets its own full-width card */
+.card + .card { margin-top: 20px; }
+#bar, #donut { max-width: 760px; margin: 0 auto; }

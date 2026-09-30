@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>TV Energy &amp; Power Prices</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
+</head>
+<body>
+
+  <header class="page-header">
+    <div class="wrap">
+      <p class="eyebrow">T05 · Multi-chart webpage · Built with D3.js</p>
+      <h1>What does it cost to keep the TV on?</h1>
+      <p class="lede">
+        A television's running cost depends on two things: how much electricity it uses,
+        and what that electricity costs. The first three charts look at the labelled energy
+        consumption of TVs sold in Australia; the last one tracks wholesale electricity
+        prices from 1998 to 2024.
+      </p>
+      <ul class="stats" aria-label="Key figures">
+        <li><strong>533</strong><span>kWh/yr — average OLED TV, all sizes</span></li>
+        <li><strong>+19%</strong><span>OLED vs LCD at the same 55″ size</span></li>
+        <li><strong>3.2×</strong><span>mainland spot price, 2024 vs 1998</span></li>
+      </ul>
+    </div>
+  </header>
+
+  <main class="wrap">
+
+    <!-- ===================== TV ENERGY ===================== -->
+    <section aria-labelledby="tv-heading">
+      <h2 id="tv-heading">Part 1 · Which TVs use the most energy?</h2>
+      <p class="section-intro">
+        Across all screen sizes, OLED TVs average far more energy than LCD or LED models.
+        But OLEDs are mostly sold in large sizes — compare TVs of the <em>same</em> size and
+        the gap shrinks a lot.
+      </p>
+
+      <figure class="card">
+        <figcaption>
+          <h3>Average energy use by screen technology</h3>
+          <p class="sub">All screen sizes · mean kWh per year</p>
+        </figcaption>
+        <div id="donut" class="chart"></div>
+        <p class="note">Each slice is sized by its technology's average, so slices compare the
+          three averages against each other — they are not shares of a total.</p>
+      </figure>
+
+      <figure class="card">
+        <figcaption>
+          <h3>Same size, smaller gap</h3>
+          <p class="sub">55-inch TVs only · mean kWh per year</p>
+        </figcaption>
+        <div id="bar" class="chart"></div>
+        <p class="note">At 55″, OLED uses about 19% more than LCD, compared with about 74% more
+          when all sizes are pooled.</p>
+      </figure>
+
+      <figure class="card">
+        <figcaption>
+          <h3>Higher star rating, lower energy use</h3>
+          <p class="sub">Each dot is one brand × technology × screen size (averaged over its models).
+            Click a legend item to show or hide a technology; hover a dot for details.</p>
+        </figcaption>
+        <div id="scatter-legend" class="legend" role="group" aria-label="Filter by screen technology"></div>
+        <div id="scatter" class="chart"></div>
+        <p class="note">Star ratings are shown as averages, so a group of models can sit between
+          half-star steps. The outlier above 2,600 kWh/yr is a 114″ TV.</p>
+      </figure>
+    </section>
+
+    <!-- ===================== SPOT PRICES ===================== -->
+    <section aria-labelledby="price-heading">
+      <h2 id="price-heading">Part 2 · What does the electricity cost?</h2>
+      <p class="section-intro">
+        Wholesale (spot) electricity prices were fairly flat for a decade, then climbed in steps —
+        with a sharp jump in 2021–22. The blue line is the average of the four mainland regions;
+        pick a region to compare it against the average.
+      </p>
+
+      <figure class="card">
+        <figcaption>
+          <h3>Annual average spot price, 1998–2024</h3>
+          <p class="sub">$ per megawatt hour</p>
+        </figcaption>
+        <div id="line-controls" class="legend" role="group" aria-label="Highlight a region"></div>
+        <div id="line" class="chart"></div>
+        <p class="note">Mainland average = Queensland, New South Wales, Victoria and South Australia.
+          Tasmania has data from 2005. The Snowy region (1998–2007 only) is not shown.</p>
+      </figure>
+    </section>
+
+  </main>
+
+  <footer class="wrap page-footer">
+    <p>Data: course-provided datasets (<code>Ex5_TV_energy.csv</code>, <code>Ex5_ARE_Spot_Prices.csv</code>).
+      Charts built with D3 v7 — each chart lives in its own file under <code>charts/</code>.</p>
+  </footer>
+
+  <div id="tooltip" class="tooltip" role="status" aria-live="polite"></div>
+
+  <script src="data/embedded-data.js"></script>
+  <script src="charts/loaded.js"></script>
+  <script src="charts/common.js"></script>
+  <script src="charts/donut.js"></script>
+  <script src="charts/bar.js"></script>
+  <script src="charts/scatter.js"></script>
+  <script src="charts/line.js"></script>
+</body>
+</html>
